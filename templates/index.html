@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panorama Stitching</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Images for Panorama Stitching</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="imageInput" name="images" multiple required>
+            <button type="submit">Upload & Stitch</button>
+        </form>
+        <div id="result">
+            <h3>Result:</h3>
+            <img id="stitchedImage" src="" alt="Stitched Panorama" style="display:none;">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            let formData = new FormData();
+            let files = document.getElementById("imageInput").files;
+            for (let file of files) {
+                formData.append("images", file);
+            }
+
+            let response = await fetch("/upload", { method: "POST", body: formData });
+            let imageUrl = await response.text();
+
+            if (imageUrl.includes("Error")) {
+                alert("Error in processing images.");
+            } else {
+                document.getElementById("stitchedImage").src = imageUrl;
+                document.getElementById("stitchedImage").style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
