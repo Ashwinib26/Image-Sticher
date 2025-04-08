@@ -15,10 +15,16 @@ body {
     width: 100%;
 }
 
-h2 {
+h1 {
     text-align: center;
     color: #00796b;
 }
+
+h4 {
+    text-align: center;
+    color: #086056;
+}
+
 
 .input-group {
     margin-bottom: 20px;
